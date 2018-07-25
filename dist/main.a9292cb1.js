@@ -103,90 +103,126 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"js/Autolinker.min.js":[function(require,module,exports) {
-var define;
-/*!
- * Autolinker.js
- * 0.11.0
- *
- * Copyright(c) 2014 Gregory Jacobs <greg@greg-jacobs.com>
- * MIT Licensed. http://www.opensource.org/licenses/mit-license.php
- *
- * https://github.com/gregjacobs/Autolinker.js
- */
-!function (a, b) {
-  "function" == typeof define && define.amd ? define(b) : "undefined" != typeof exports ? module.exports = b() : a.Autolinker = b();
-}(this, function () {
-  var a = function a(_a) {
-    _a = _a || {};for (var b in _a) {
-      _a.hasOwnProperty(b) && (this[b] = _a[b]);
-    }
-  };return a.prototype = { constructor: a, newWindow: !0, stripPrefix: !0, twitter: !0, email: !0, urls: !0, className: "", matcherRegex: function () {
-      var a = /(^|[^\w])@(\w{1,15})/,
-          b = /(?:[\-;:&=\+\$,\w\.]+@)/,
-          c = /(?:[A-Za-z]{3,9}:(?:\/\/)?)/,
-          d = /(?:www\.)/,
-          e = /[A-Za-z0-9\.\-]*[A-Za-z0-9\-]/,
-          f = /\.(?:international|construction|contractors|enterprises|photography|productions|foundation|immobilien|industries|management|properties|technology|christmas|community|directory|education|equipment|institute|marketing|solutions|vacations|bargains|boutique|builders|catering|cleaning|clothing|computer|democrat|diamonds|graphics|holdings|lighting|partners|plumbing|supplies|training|ventures|academy|careers|company|cruises|domains|exposed|flights|florist|gallery|guitars|holiday|kitchen|neustar|okinawa|recipes|rentals|reviews|shiksha|singles|support|systems|agency|berlin|camera|center|coffee|condos|dating|estate|events|expert|futbol|kaufen|luxury|maison|monash|museum|nagoya|photos|repair|report|social|supply|tattoo|tienda|travel|viajes|villas|vision|voting|voyage|actor|build|cards|cheap|codes|dance|email|glass|house|mango|ninja|parts|photo|shoes|solar|today|tokyo|tools|watch|works|aero|arpa|asia|best|bike|blue|buzz|camp|club|cool|coop|farm|fish|gift|guru|info|jobs|kiwi|kred|land|limo|link|menu|mobi|moda|name|pics|pink|post|qpon|rich|ruhr|sexy|tips|vote|voto|wang|wien|wiki|zone|bar|bid|biz|cab|cat|ceo|com|edu|gov|int|kim|mil|net|onl|org|pro|pub|red|tel|uno|wed|xxx|xyz|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw)\b/,
-          g = /(?:[\-A-Za-z0-9+&@#\/%?=~_()|!:,.;]*[\-A-Za-z0-9+&@#\/%=~_()|])?/;return new RegExp(["(", a.source, ")", "|", "(", b.source, e.source, f.source, ")", "|", "(", "(?:", "(?:", c.source, e.source, ")", "|", "(?:", "(.?//)?", d.source, e.source, ")", "|", "(?:", "(.?//)?", e.source, f.source, ")", ")", g.source, ")"].join(""), "gi");
-    }(), protocolRelativeRegex: /(.)?\/\//, htmlRegex: function () {
-      var a = /[0-9a-zA-Z:]+/,
-          b = /[^\s\0"'>\/=\x01-\x1F\x7F]+/,
-          c = /(?:".*?"|'.*?'|[^'"=<>`\s]+)/;return new RegExp(["<(/)?", "(" + a.source + ")", "(?:", "\\s+", b.source, "(?:\\s*=\\s*" + c.source + ")?", ")*", "\\s*", ">"].join(""), "g");
-    }(), urlPrefixRegex: /^(https?:\/\/)?(www\.)?/i, link: function link(a) {
-      return this.processHtml(a);
-    }, processHtml: function processHtml(a) {
-      for (var b, c, d = this.htmlRegex, e = 0, f = 0, g = []; null !== (b = d.exec(a));) {
-        var h = b[0],
-            i = b[2],
-            j = !!b[1];c = a.substring(e, b.index), e = b.index + h.length, "a" === i ? j ? (f = Math.max(f - 1, 0), 0 === f && g.push(c)) : (f++, g.push(this.processTextNode(c))) : g.push(0 === f ? this.processTextNode(c) : c), g.push(h);
-      }if (e < a.length) {
-        var k = this.processTextNode(a.substring(e));g.push(k);
-      }return g.join("");
-    }, processTextNode: function processTextNode(a) {
-      var b = this,
-          c = this.matcherRegex,
-          d = this.twitter,
-          e = this.email,
-          f = this.urls;return a.replace(c, function (a, c, g, h, i, j, k, l) {
-        var m = c,
-            n = g,
-            o = h,
-            p = i,
-            q = j,
-            r = k || l,
-            s = "",
-            t = "";if (m && !d || p && !e || q && !f || q && -1 === q.indexOf(".") || q && /^[A-Za-z]{3,9}:/.test(q) && !/:.*?[A-Za-z]/.test(q) || r && /^[\w]\/\//.test(r)) return a;var u = a.charAt(a.length - 1);if (")" === u) {
-          var v = a.match(/\(/g),
-              w = a.match(/\)/g),
-              x = v && v.length || 0,
-              y = w && w.length || 0;y > x && (a = a.substr(0, a.length - 1), t = ")");
-        }var z,
-            A = a,
-            B = a;if (m) z = "twitter", s = n, A = "https://twitter.com/" + o, B = "@" + o;else if (p) z = "email", A = "mailto:" + p, B = p;else if (z = "url", r) {
-          var C = new RegExp("^" + b.protocolRelativeRegex.source),
-              D = r.match(C)[1] || "";s = D + s, A = A.replace(C, "//"), B = B.replace(C, "");
-        } else /^[A-Za-z]{3,9}:/i.test(A) || (A = "http://" + A);var E = b.createAnchorTag(z, A, B);return s + E + t;
-      });
-    }, createAnchorTag: function createAnchorTag(a, b, c) {
-      var d = this.createAnchorAttrsStr(a, b);return c = this.processAnchorText(c), "<a " + d + ">" + c + "</a>";
-    }, createAnchorAttrsStr: function createAnchorAttrsStr(a, b) {
-      var c = ['href="' + b + '"'],
-          d = this.createCssClass(a);return d && c.push('class="' + d + '"'), this.newWindow && c.push('target="_blank"'), c.join(" ");
-    }, createCssClass: function createCssClass(a) {
-      var b = this.className;return b ? b + " " + b + "-" + a : "";
-    }, processAnchorText: function processAnchorText(a) {
-      return this.stripPrefix && (a = this.stripUrlPrefix(a)), a = this.removeTrailingSlash(a), a = this.doTruncate(a);
-    }, stripUrlPrefix: function stripUrlPrefix(a) {
-      return a.replace(this.urlPrefixRegex, "");
-    }, removeTrailingSlash: function removeTrailingSlash(a) {
-      return "/" === a.charAt(a.length - 1) && (a = a.slice(0, -1)), a;
-    }, doTruncate: function doTruncate(a) {
-      var b = this.truncate;return b && a.length > b && (a = a.substring(0, b - 2) + ".."), a;
-    } }, a.link = function (b, c) {
-    var d = new a(c);return d.link(b);
-  }, a;
+})({"js/main.js":[function(require,module,exports) {
+var highlightLayer;
+
+function highlightFeature(e) {
+  highlightLayer = e.target;
+
+  if (e.target.feature.geometry.type === 'LineString') {
+    highlightLayer.setStyle({
+      color: '#ffff00'
+    });
+  } else {
+    highlightLayer.setStyle({
+      fillColor: '#ffff00',
+      fillOpacity: 1
+    });
+  }
+}
+var map = L.map('map', {
+  zoomControl: true,
+  maxZoom: 28,
+  minZoom: 1
+}).fitBounds([[-79.80639003863648, -188.147969675], [169.07272003863648, 188.74762667500036]]);
+var hash = new L.Hash(map);
+map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+var bounds_group = new L.featureGroup([]);
+
+function setBounds() {}
+
+function pop_cb_2017_us_state_20m_0(feature, layer) {
+  layer.on({
+    mouseout: function mouseout(e) {
+      for (i in e.target._eventParents) {
+        e.target._eventParents[i].resetStyle(e.target);
+      }
+    },
+    mouseover: highlightFeature
+  });
+  var popupContent = '<table>\
+            <tr>\
+                <th scope="row">STATEFP</th>\
+                <td>' + (feature.properties['STATEFP'] !== null ? Autolinker.link(String(feature.properties['STATEFP'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">STATENS</th>\
+                <td>' + (feature.properties['STATENS'] !== null ? Autolinker.link(String(feature.properties['STATENS'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">AFFGEOID</th>\
+                <td>' + (feature.properties['AFFGEOID'] !== null ? Autolinker.link(String(feature.properties['AFFGEOID'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">GEOID</th>\
+                <td>' + (feature.properties['GEOID'] !== null ? Autolinker.link(String(feature.properties['GEOID'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">STUSPS</th>\
+                <td>' + (feature.properties['STUSPS'] !== null ? Autolinker.link(String(feature.properties['STUSPS'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">NAME</th>\
+                <td>' + (feature.properties['NAME'] !== null ? Autolinker.link(String(feature.properties['NAME'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">LSAD</th>\
+                <td>' + (feature.properties['LSAD'] !== null ? Autolinker.link(String(feature.properties['LSAD'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">ALAND</th>\
+                <td>' + (feature.properties['ALAND'] !== null ? Autolinker.link(String(feature.properties['ALAND'])) : '') + '</td>\
+            </tr>\
+            <tr>\
+                <th scope="row">AWATER</th>\
+                <td>' + (feature.properties['AWATER'] !== null ? Autolinker.link(String(feature.properties['AWATER'])) : '') + '</td>\
+            </tr>\
+        </table>';
+  layer.bindPopup(popupContent, {
+    maxHeight: 400
+  });
+}
+
+function style_cb_2017_us_state_20m_0_0() {
+  return {
+    pane: 'pane_cb_2017_us_state_20m_0',
+    opacity: 1,
+    color: 'rgba(35,35,35,1.0)',
+    dashArray: '',
+    lineCap: 'butt',
+    lineJoin: 'miter',
+    weight: 1.0,
+    fill: true,
+    fillOpacity: 1,
+    fillColor: 'rgba(146,88,78,1.0)'
+  };
+}
+map.createPane('pane_cb_2017_us_state_20m_0');
+map.getPane('pane_cb_2017_us_state_20m_0').style.zIndex = 400;
+map.getPane('pane_cb_2017_us_state_20m_0').style['mix-blend-mode'] = 'normal';
+var layer_cb_2017_us_state_20m_0 = new L.geoJson(json_cb_2017_us_state_20m_0, {
+  attribution: '<a href=""></a>',
+  pane: 'pane_cb_2017_us_state_20m_0',
+  onEachFeature: pop_cb_2017_us_state_20m_0,
+  style: style_cb_2017_us_state_20m_0_0
 });
+bounds_group.addLayer(layer_cb_2017_us_state_20m_0);
+map.addLayer(layer_cb_2017_us_state_20m_0);
+var osmGeocoder = new L.Control.Geocoder({
+  collapsed: true,
+  position: 'topleft',
+  text: 'Search',
+  title: 'Testing'
+}).addTo(map);
+document.getElementsByClassName('leaflet-control-geocoder-icon')[0].className += ' fa fa-search';
+document.getElementsByClassName('leaflet-control-geocoder-icon')[0].title += 'Search for a place';
+var baseMaps = {};
+L.control.layers(baseMaps, {
+  '<img src="legend/cb_2017_us_state_20m_0.png" /> cb_2017_us_state_20m': layer_cb_2017_us_state_20m_0
+}, {
+  collapsed: false
+}).addTo(map);
+setBounds();
 },{}],"../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -357,5 +393,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},["../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/Autolinker.min.js"], null)
-//# sourceMappingURL=/Autolinker.min.694a9efb.map
+},{}]},{},["../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","js/main.js"], null)
+//# sourceMappingURL=/main.a9292cb1.map
