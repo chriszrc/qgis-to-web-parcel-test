@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "rbush": "^2.0.2"
+  }
+}
